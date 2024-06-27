@@ -6,6 +6,8 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    padding: 20px; /* Add padding to avoid elements touching the screen edges */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
 }
 
 .container {
@@ -13,11 +15,12 @@ body {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 100%;
+    max-width: 400px;
     text-align: center;
 }
 
-h1 {
+h1, h2 {
     color: #007bff;
     margin-bottom: 20px;
     font-size: 24px;
@@ -30,7 +33,7 @@ label {
     color: #333333;
 }
 
-select, textarea, button {
+select, textarea, input, button {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
