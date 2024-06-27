@@ -21,11 +21,23 @@
             <label for="Nume/Prenume/Grupă">Nume/Prenume/Grupă:</label>
             <textarea id="Nume/Prenume/Grupă" name="Nume/Prenume/Grupă" required></textarea>
 
-            <button type="Încarcă răspunsul">Încarcă răspunsul</button>
+            <button type="submit">Încarcă răspunsul</button>
         </form>
 
         <div id="message"></div>
         <button id="download">Descarcă Înregistrările curente</button>
+
+        <h2>Admin Login</h2>
+        <form id="adminLoginForm">
+            <label for="adminPassword">Password:</label>
+            <input type="password" id="adminPassword" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <div id="adminSection" style="display: none;">
+            <h2>Current Entries</h2>
+            <div id="entries"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
