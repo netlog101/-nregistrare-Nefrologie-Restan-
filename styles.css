@@ -6,8 +6,8 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    padding: 20px; /* Add padding to avoid elements touching the screen edges */
-    box-sizing: border-box; /* Include padding in the element's total width and height */
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .container {
@@ -33,14 +33,15 @@ label {
     color: #333333;
 }
 
-select, textarea, input, button {
-    width: 100%;
+select, textarea, input {
+    width: calc(100% - 26px); /* Adjusted width to account for border and padding */
     padding: 12px;
     margin-bottom: 20px;
     border: 1px solid #007bff;
     border-radius: 5px;
     font-size: 16px;
     outline: none;
+    box-sizing: border-box; /* Include padding and border in element's width calculation */
 }
 
 textarea {
@@ -48,33 +49,29 @@ textarea {
     resize: none;
 }
 
-button {
+button, #download {
     background-color: #007bff;
     color: #ffffff;
-    cursor: pointer;
     border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 10px; /* Adjusted margin for better spacing */
 }
 
-button:hover {
+button:hover, #download:hover {
     background-color: #0056b3;
 }
 
 #message {
     color: red;
-    margin-top: -15px;
+    margin-top: -15px; /* Adjusted negative margin */
 }
 
 #download {
     background-color: #28a745;
-    color: #ffffff;
-    border: none;
-    padding: 12px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 #download:hover {
