@@ -9,7 +9,7 @@ const firebaseConfig = {
     storageBucket: "inregistrare-nefro.appspot.com",
     messagingSenderId: "946617723576",
     appId: "1:946617723576:web:f0f1ca4f0ee11cba15e24d"
-};
+}
 
 const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
@@ -73,20 +73,28 @@ registrationForm.addEventListener('submit', (e) => {
 
 // Download current entries
 document.getElementById('download').addEventListener('click', () => {
+    console.log('Download button clicked'); // Debugging log
+
     firebase.database().ref('entries').once('value', (snapshot) => {
         const data = snapshot.val();
         const entries = data ? Object.values(data) : [];
-        const jsonEntries = JSON.stringify(entries, null, 2);
-        const blob = new Blob([jsonEntries], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'registrations.json';
-        a.click();
-        URL.revokeObjectURL(url);
+        console.log('Entries to download:', entries); // Debugging log
+
+        if (entries.length > 0) {
+            const jsonEntries = JSON.stringify(entries, null, 2);
+            const blob = new Blob([jsonEntries], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'registrations.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        } else {
+            console.log('No entries to download'); // Debugging log
+            alert('No entries to download');
+        }
     });
 });
-
 // Admin login handler
 adminLoginForm.addEventListener('submit', (e) => {
     e.preventDefault();
