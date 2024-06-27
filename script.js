@@ -1,23 +1,8 @@
-// Import Firebase SDK
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, set, push, orderByChild, equalTo, remove } from "firebase/database";
-
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyBaY09UOzbRhC47atAKM7MSKy2wVrRJl58",
-    authDomain: "inregistrare-nefro.firebaseapp.com",
-    databaseURL: "https://inregistrare-nefro-default-rtdb.europe-west1.firebasedatabase.app/",
-    projectId: "inregistrare-nefro",
-    storageBucket: "inregistrare-nefro.appspot.com",
-    messagingSenderId: "946617723576",
-    appId: "1:946617723576:web:f0f1ca4f0ee11cba15e24d"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 
 document.addEventListener('DOMContentLoaded', () => {
+// Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
     const registrationForm = document.getElementById('registrationForm');
     const adminLoginForm = document.getElementById('adminLoginForm');
     const messageDiv = document.getElementById('message');
