@@ -23,87 +23,92 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxEntries = 42;
     const adminPassword = 'vdTyS9$Z:2Fa!Q-*(z;.f{'; // Set your password here
 
-    // Fetch existing entries from Firebase
-    function fetchEntries() {
-        firebase.database().ref('entries').on('value', (snapshot) => {
-            const data = snapshot.val();
-            const entries = data ? Object.values(data) : [];
-            updateEntriesDisplay(entries);
-        });
-    }
-
-    function updateEntriesDisplay(entries) {
-        entriesDiv.innerHTML = '';
-        entries.forEach((entry, index) => {
-            const entryDiv = document.createElement('div');
-            entryDiv.className = 'entry';
-            entryDiv.innerHTML = `
-                <p>${entry.option}: ${entry.text}</p>
-                <button data-key="${entry.key}">Delete</button>
-            `;
-            entriesDiv.appendChild(entryDiv);
-        });
-    }
-
-    registrationForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const selectedOption = document.getElementById('Preferință zi').value;
-        const userText = document.getElementById('Nume/Prenume/Grupă').value;
-
-        // Check if the limit is reached for the selected option
-        firebase.database().ref('entries').orderByChild('option').equalTo(selectedOption).once('value', (snapshot) => {
-            const data = snapshot.val();
-            const optionEntriesCount = data ? Object.keys(data).length : 0;
-
-            if (optionEntriesCount < maxEntries) {
-                const newEntryKey = firebase.database().ref().child('entries').push().key;
-                firebase.database().ref('entries/' + newEntryKey).set({
-                    key: newEntryKey,
-                    option: selectedOption,
-                    text: userText
-                });
-                messageDiv.textContent = `Înregistrat cu succes pentru ${selectedOption}. Înregistrări totale: ${optionEntriesCount + 1}`;
-            } else {
-                messageDiv.textContent = `Limită atinsă pentru ${selectedOption}. Te rog alege altă opțiune.`;
-            }
-        });
+// Fetch existing entries from Firebase
+function fetchEntries() {
+    firebase.database().ref('entries').on('value', (snapshot) => {
+        const data = snapshot.val();
+        const entries = data ? Object.values(data) : [];
+        updateEntriesDisplay(entries);
     });
+}
 
-    document.getElementById('download').addEventListener('click', () => {
-        firebase.database().ref('entries').once('value', (snapshot) => {
-            const data = snapshot.val();
-            const entries = data ? Object.values(data) : [];
-            const jsonEntries = JSON.stringify(entries, null, 2);
-            const blob = new Blob([jsonEntries], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'registrations.json';
-            a.click();
-            URL.revokeObjectURL(url);
-        });
+// Update entries display
+function updateEntriesDisplay(entries) {
+    entriesDiv.innerHTML = '';
+    entries.forEach((entry) => {
+        const entryDiv = document.createElement('div');
+        entryDiv.className = 'entry';
+        entryDiv.innerHTML = `
+            <p>${entry.option}: ${entry.text}</p>
+            <button data-key="${entry.key}">Delete</button>
+        `;
+        entriesDiv.appendChild(entryDiv);
     });
+}
 
-    adminLoginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+// Form submission handler
+registrationForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const selectedOption = document.getElementById('Preferință zi').value;
+    const userText = document.getElementById('Nume/Prenume/Grupă').value;
 
-        const adminPasswordInput = document.getElementById('adminPassword').value;
-        if (adminPasswordInput === adminPassword) {
-            adminSection.style.display = 'block';
-            fetchEntries();
+    // Check if the limit is reached for the selected option
+    firebase.database().ref('entries').orderByChild('option').equalTo(selectedOption).once('value', (snapshot) => {
+        const data = snapshot.val();
+        const optionEntriesCount = data ? Object.keys(data).length : 0;
+
+        if (optionEntriesCount < maxEntries) {
+            const newEntryKey = firebase.database().ref().child('entries').push().key;
+            firebase.database().ref('entries/' + newEntryKey).set({
+                key: newEntryKey,
+                option: selectedOption,
+                text: userText
+            });
+            messageDiv.textContent = `Înregistrat cu succes pentru ${selectedOption}. Înregistrări totale: ${optionEntriesCount + 1}`;
         } else {
-            alert('Incorrect password');
+            messageDiv.textContent = `Limită atinsă pentru ${selectedOption}. Te rog alege altă opțiune.`;
         }
     });
+});
 
-    entriesDiv.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON') {
-            const entryKey = e.target.getAttribute('data-key');
-            firebase.database().ref('entries/' + entryKey).remove();
-        }
+// Download current entries
+document.getElementById('download').addEventListener('click', () => {
+    firebase.database().ref('entries').once('value', (snapshot) => {
+        const data = snapshot.val();
+        const entries = data ? Object.values(data) : [];
+        const jsonEntries = JSON.stringify(entries, null, 2);
+        const blob = new Blob([jsonEntries], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'registrations.json';
+        a.click();
+        URL.revokeObjectURL(url);
     });
+});
 
-    // Initial fetch
-    fetchEntries();
+// Admin login handler
+adminLoginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const adminPasswordInput = document.getElementById('adminPassword').value;
+    console.log('Admin form submitted'); // Debugging log
+    console.log('Password entered:', adminPasswordInput); // Debugging log
+
+    if (adminPasswordInput === adminPassword) {
+        console.log('Admin login successful'); // Debugging log
+        adminSection.style.display = 'block';
+        fetchEntries();
+    } else {
+        console.log('Incorrect password'); // Debugging log
+        alert('Incorrect password');
+    }
+});
+
+// Delete entry handler
+entriesDiv.addEventListener('click', (e) => {
+    if (e.target.tagName === 'BUTTON') {
+        const entryKey = e.target.getAttribute('data-key');
+        firebase.database().ref('entries/' + entryKey).remove();
+    }
 });
