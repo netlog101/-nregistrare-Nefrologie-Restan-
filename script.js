@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const registrationForm = document.getElementById('registrationForm');
+    const registrationForm = document.getElementById('Formular Înregistrare Restanță Nefrologie');
     const messageDiv = document.getElementById('message');
     const maxEntries = 42;
 
@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         "4.07": []
     };
 
-    registrationForm.addEventListener('submit', (e) => {
+    registrationForm.addEventListener('Încarcă răspunsul', (e) => {
         e.preventDefault();
 
-        const selectedOption = document.getElementById('options').value;
-        const userText = document.getElementById('userText').value;
+        const selectedOption = document.getElementById('Preferință zi').value;
+        const userText = document.getElementById('Nume/Prenume/Grupă').value;
 
         if (entries[selectedOption].length < maxEntries) {
             entries[selectedOption].push(userText);
