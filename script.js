@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const registrationForm = document.getElementById('Formular Înregistrare Restanță Nefrologie');
+    const adminLoginForm = document.getElementById('adminLoginForm');
     const messageDiv = document.getElementById('message');
+    const adminSection = document.getElementById('adminSection');
+    const entriesDiv = document.getElementById('entries');
     const maxEntries = 42;
+    const adminPassword = 'vdTyS9$Z:2Fa!Q-*(z;.f{'; // Set your password here
 
-    // Load entries from local storage or initialize if not present
     let entries = JSON.parse(localStorage.getItem('entries')) || {
         "1.07": [],
         "2.07": [],
@@ -11,7 +14,27 @@ document.addEventListener('DOMContentLoaded', () => {
         "4.07": []
     };
 
-    registrationForm.addEventListener('Încarcă răspunsul', (e) => {
+    function updateEntriesDisplay() {
+        entriesDiv.innerHTML = '';
+        for (let option in entries) {
+            if (entries[option].length > 0) {
+                const optionDiv = document.createElement('div');
+                optionDiv.innerHTML = `<h3>${option}</h3>`;
+                entries[option].forEach((entry, index) => {
+                    const entryDiv = document.createElement('div');
+                    entryDiv.className = 'entry';
+                    entryDiv.innerHTML = `
+                        <p>${entry}</p>
+                        <button data-option="${option}" data-index="${index}">Delete</button>
+                    `;
+                    optionDiv.appendChild(entryDiv);
+                });
+                entriesDiv.appendChild(optionDiv);
+            }
+        }
+    }
+
+    registrationForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const selectedOption = document.getElementById('Preferință zi').value;
@@ -35,5 +58,27 @@ document.addEventListener('DOMContentLoaded', () => {
         a.download = 'registrations.json';
         a.click();
         URL.revokeObjectURL(url);
+    });
+
+    adminLoginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const adminPasswordInput = document.getElementById('adminPassword').value;
+        if (adminPasswordInput === adminPassword) {
+            adminSection.style.display = 'block';
+            updateEntriesDisplay();
+        } else {
+            alert('Incorrect password');
+        }
+    });
+
+    entriesDiv.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            const option = e.target.getAttribute('data-option');
+            const index = e.target.getAttribute('data-index');
+            entries[option].splice(index, 1);
+            localStorage.setItem('entries', JSON.stringify(entries));
+            updateEntriesDisplay();
+        }
     });
 });
