@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminSection = document.getElementById('adminSection');
     const entriesDiv = document.getElementById('entries');
     const maxEntries = 42;
-    const adminPassword = 'vdTyS9$Z:2Fa!Q-*(z;.f{'; // Set your password here
+    const adminPassword = 'your_password'; // Set your password here
 
     let entries = JSON.parse(localStorage.getItem('entries')) || {
         "1.07": [],
@@ -62,12 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     adminLoginForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        console.log("Admin login form submitted");
 
         const adminPasswordInput = document.getElementById('adminPassword').value;
         if (adminPasswordInput === adminPassword) {
+            console.log("Admin password correct");
             adminSection.style.display = 'block';
             updateEntriesDisplay();
         } else {
+            console.log("Admin password incorrect");
             alert('Incorrect password');
         }
     });
