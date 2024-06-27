@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminSection = document.getElementById('adminSection');
     const entriesDiv = document.getElementById('entries');
     const maxEntries = 42;
-    const adminPassword = 'your_password'; // Set your password here
+    const adminPassword = 'vdTyS9$Z:2Fa!Q-*(z;.f{'; // Set your password here
 
     // Fetch existing entries from Firebase
     function fetchEntries() {
