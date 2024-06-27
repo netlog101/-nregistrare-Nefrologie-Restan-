@@ -1,7 +1,7 @@
 
 // Import Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app-compat.js";
-import { getDatabase, ref, push, set, onValue } from "https://inregistrare-nefro-default-rtdb.europe-west1.firebasedatabase.app/";
+import { getDatabase, ref, push, set, onValue } from "firebase/database";
 const firebaseConfig = {
 apiKey: "AIzaSyBaY09UOzbRhC47atAKM7MSKy2wVrRJl58",
 authDomain: "inregistrare-nefro.firebaseapp.com",
